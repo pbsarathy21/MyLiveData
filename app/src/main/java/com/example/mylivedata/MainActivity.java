@@ -26,17 +26,18 @@ public class MainActivity extends AppCompatActivity {
 
         binding.setUserModel(userModel);
 
-        /*userModel.getData().observe(this, new Observer<String>() {
+        userModel.getData().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
 
+                userModel.textValue.set(s);
             }
         });
-*/
+
         binding.setIUser(new IUser() {
             @Override
             public void onLoginClicked() {
-
+                    userModel.showText();
             }
 
         });

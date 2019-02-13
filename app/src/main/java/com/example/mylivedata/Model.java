@@ -15,7 +15,7 @@ public class Model {
     private Integer id;
     @SerializedName("title")
     @Expose
-    private MutableLiveData<String> title;
+    private String title;
     @SerializedName("body")
     @Expose
     private String body;
@@ -36,7 +36,7 @@ public class Model {
         this.id = id;
     }
 
-    public MutableLiveData<String> getTitle() {
+    public String getTitle() {
         return title;
     }
 

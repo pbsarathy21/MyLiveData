@@ -1,34 +1,47 @@
 package com.example.mylivedata;
 
 import android.arch.lifecycle.MutableLiveData;
+
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class UserRepository {
 
-    private MutableLiveData<Model> modelMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<String> data = new MutableLiveData<>();
 
     public UserRepository() {
     }
 
-    public MutableLiveData<Model> getResponseBodyMutableLiveData() {
+    public MutableLiveData<String> getResponseBodyMutableLiveData() {
 
         ApiInterface apiInterface = RetrofitClient.getApiInterface();
-        Call<Model> call = apiInterface.details();
+        Call<List<Model>> call = apiInterface.details();
+            call.enqueue(new Callback<List<Model>>() {
+    @Override
+    public void onResponse(Call<List<Model>> call, Response<List<Model>> response) {
+        if (response.code() == 200)
+        {
+            List<Model> modelList = response.body();
+            data.setValue(modelList.get(0).getTitle());
+        }
 
-        call.enqueue(new Callback<Model>() {
-            @Override
-            public void onResponse(Call<Model> call, Response<Model> response) {
-                modelMutableLiveData.setValue(response.body());
-            }
+        else
+        {
+            data.setValue("Error "+response.code());
+        }
+    }
 
-            @Override
-            public void onFailure(Call<Model> call, Throwable t) {
+    @Override
+    public void onFailure(Call<List<Model>> call, Throwable t) {
 
-            }
-        });
+        data.setValue(t.getMessage());
 
-        return modelMutableLiveData;
+    }
+});
+
+        return data;
     }
 }

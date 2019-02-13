@@ -6,19 +6,28 @@ import android.databinding.ObservableField;
 
 public class UserModel extends ViewModel {
 
+    private UserRepository userRepository;
+
     public MutableLiveData<String> data;
-    public MutableLiveData<Model> modelMutableLiveData;
+    //public MutableLiveData<Model> modelMutableLiveData;
     public ObservableField<String> textValue = new ObservableField<>("");
     public ObservableField<String> username = new ObservableField<>("");
     public ObservableField<String> password = new ObservableField<>("");
 
 
     public UserModel() {
-        UserRepository userRepository = new UserRepository();
+        userRepository = new UserRepository();
         textValue.set("Hello partha");
-        modelMutableLiveData = userRepository.getResponseBodyMutableLiveData();
+        data = userRepository.getResponseBodyMutableLiveData();
         //data = modelMutableLiveData.getValue().getTitle();
         //textValue.set(modelMutableLiveData.getValue().getTitle());
+    }
+
+
+    public void showText()
+    {
+        data.setValue("Bobby");
+        data = userRepository.getResponseBodyMutableLiveData();
     }
 
 
